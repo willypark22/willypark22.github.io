@@ -131,11 +131,15 @@
       if(counter != 5) {
         counter++;
         nomCounter++;
+        console.log(posterMovie);
+        if(posterMovie === "N/A" || posterMovie === "undefined") {
+          posterArrays[counter] = "images/Untitled-1.png";
+        }
+        else {
           posterArrays[counter] = posterMovie;
-          // console.log(posterArrays[counter]);
+        }
 
         if(counter == 5) {
-          // console.log(posterArrays);
           nominationBanner.style.display = "block";
           document.getElementById("banner-image-1").src = posterArrays[1];
           document.getElementById("banner-image-2").src = posterArrays[2];
@@ -167,7 +171,12 @@
 
     function myFunction(poster, header, title, year, imdbID, type) {
       showMovie.style.display = "block";
-      document.getElementById("movie-image").src = poster;
+      if(poster === "N/A" || poster === "undefined") {
+        document.getElementById("movie-image").src = "images/Untitled-1.png";
+      }
+      else {
+        document.getElementById("movie-image").src = poster;
+      }
       document.getElementById("movie-header").innerHTML = title;
       document.getElementById("movie-title").innerHTML = "Title: " + title;
       document.getElementById("movie-year").innerHTML = "Year: " + year;

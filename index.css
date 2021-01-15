@@ -331,3 +331,40 @@ ul li:hover {
   flex: 20%;
   padding: 5px;
 }
+
+@media screen and (max-width: 767px) {
+  .movie-description-content {
+    width: 90%;
+  }
+
+  .movie-result-row {
+    flex-direction: column;
+  }
+
+  .movie-result-column-50 {
+    flex: 50%;
+    padding: 0 10px;
+    margin-left: 10%;
+    padding-left: 3%;
+    padding-bottom: 20px;
+    background-color: rgba(31, 31, 31, 1);
+    border-radius: 20px;
+    margin-right: 10%;
+    margin-bottom: 20px;
+  }
+
+  .movie-result-column-50-1 {
+    flex: 50%;
+    padding: 0 10px;
+    margin-right: 10%;
+    padding-right: 3%;
+    padding-bottom: 20px;
+    background-color: rgba(31, 31, 31, 1);
+    border-radius: 20px;
+    margin-left: 10%;
+  }
+
+  .banner-body-row {
+    flex-direction: column;
+  }
+}

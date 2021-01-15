@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>The Shoppies: Movie Awards for Entrepreneurs</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="shortcut icon" href="images/shoppies.png" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/45d9280b50.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="shoppie-header">
+      <!-- <i class="fas fa-ticket-alt fa-4x" id="ticket-icon"></i> -->
+      <!-- <span> | Shoppies</span> -->
+      <img src="images/shoppies.png" alt="" width="120px">
+    </div>
+    <div class="movie-search-container">
+      <h2>Nominate a Movie</h2>
+      <p>Search through the galaxy and nominate up to 5 movies.</p>
+      <p>Click the <span>&#9432;</span> next to the name for more information.</p>
+      <input type="text" placeholder="Search movie..." onkeyup="getMovie(document.getElementById('queryBox').value)" id="queryBox">
+    </div>
+    <div class="movie-result-row">
+      <div class="movie-result-column-50">
+        <h2>Movie Suggestions</h2>
+          <ul id="searchList">
+          </ul>
+      </div>
+      <div class="movie-result-column-50-1">
+        <h2>Your Nominations</h2>
+          <ul id="nominationList">
+          </ul>
+      </div>
+    </div>
+
+    <div id="myBanner" class="nomination-banner">
+      <div class="banner-content">
+        <div class="banner-header">
+          <span class="banner-close">&times;</span>
+          <h2>You have nominated 5 films!</h2>
+        </div>
+        <div class="banner-body">
+          <div class="banner-body-row">
+            <div class="banner-body-column-20">
+              <img id="banner-image-1" src="" alt="" width="100%" height="100%">
+            </div>
+            <div class="banner-body-column-20">
+              <img id="banner-image-2" src="" alt="" width="100%" height="100%">
+            </div>
+            <div class="banner-body-column-20">
+              <img id="banner-image-3" src="" alt="" width="100%" height="100%">
+            </div>
+            <div class="banner-body-column-20">
+              <img id="banner-image-4" src="" alt="" width="100%" height="100%">
+            </div>
+            <div class="banner-body-column-20">
+              <img id="banner-image-5" src="" alt="" width="100%" height="100%">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="movieBanner" class="movie-description-banner">
+      <div class="movie-description-content">
+        <div class="movie-description-header">
+          <span class="movie-close">&times;</span>
+          <h2 id="movie-header"></h2>
+        </div>
+        <div class="movie-description-body">
+          <div class="movie-description-content-row">
+            <div class="movie-description-content-column-40">
+              <img id="movie-image" src="" alt="" width="100%">
+            </div>
+            <div id="movie-contents" class="movie-description-content-column-60">
+              <p id="movie-title"></p>
+              <p id="movie-year"></p>
+              <p id="movie-id"></p>
+              <p id="movie-type"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+
+    var counter = 0;
+    var nomCounter = 0;
+    var nominationBanner = document.getElementById("myBanner");
+    var closeSpan = document.getElementsByClassName("banner-close")[0];
+    var closeMovie = document.getElementsByClassName("movie-close")[0];
+    var movieBanner = document.getElementsByClassName("movie-description-banner")[0];
+    var showMovie = document.getElementById("movieBanner");
+    var posterArrays = [];
+
+    closeSpan.onclick = function () {
+      nominationBanner.style.display = "none";
+    }
+
+    closeMovie.onclick = function() {
+      showMovie.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      if(event.target == nominationBanner) {
+        nominationBanner.style.display = "none";
+      }
+      if(event.target == showMovie) {
+        showMovie.style.display = "none";
+      }
+    }
+
+    function removeFunction(removeNum) {
+      var x = event.target.parentElement.getAttribute('id');
+      var removeList = document.getElementById(x);
+      counter--;
+
+      if(document.getElementById("mybtn" + removeNum + "1") === null) {
+        removeList.remove();
+      }
+      else {
+        document.getElementById("mybtn" + removeNum + "1").disabled = false;
+        removeList.remove();
+        document.getElementById("mybtn" + removeNum + "1").id = "mybtn" + removeNum;
+        document.getElementById(removeNum + "1").id = removeNum;
+      }
+    }
+
+    function nominationFunction(num, posterMovie) {
+      if(counter != 5) {
+        counter++;
+        nomCounter++;
+          posterArrays[counter] = posterMovie;
+          // console.log(posterArrays[counter]);
+
+        if(counter == 5) {
+          // console.log(posterArrays);
+          nominationBanner.style.display = "block";
+          document.getElementById("banner-image-1").src = posterArrays[1];
+          document.getElementById("banner-image-2").src = posterArrays[2];
+          document.getElementById("banner-image-3").src = posterArrays[3];
+          document.getElementById("banner-image-4").src = posterArrays[4];
+          document.getElementById("banner-image-5").src = posterArrays[5];
+        }
+        var nominationSection = document.getElementById("nominationList");
+        var movieNum = document.getElementById(num);
+        var movieClone = movieNum.cloneNode(true);
+        var buttonClone = document.getElementById("mybtn" + num);
+        var liClone = document.getElementById(num);
+
+        buttonClone.id = "mybtn" + num + "1";
+        liClone.id = num + "1";
+
+        movieClone.id = nomCounter + "nomination";
+
+        nominationSection.appendChild(movieClone);
+        document.getElementById("mybtn" + num + "1").disabled = true;
+        document.getElementById("mybtn" + num).id = "nomButton" + nomCounter;
+        document.getElementById("nomButton" + nomCounter).setAttribute("onclick", "javascript: removeFunction(" + num + ")");
+        document.getElementById("nomButton" + nomCounter).innerText = 'Remove';
+      }
+      else {
+        nominationBanner.style.display = "block";
+      }
+    }
+
+    function myFunction(poster, header, title, year, imdbID, type) {
+      showMovie.style.display = "block";
+      document.getElementById("movie-image").src = poster;
+      document.getElementById("movie-header").innerHTML = title;
+      document.getElementById("movie-title").innerHTML = "Title: " + title;
+      document.getElementById("movie-year").innerHTML = "Year: " + year;
+      document.getElementById("movie-id").innerHTML = "IMDB ID: " + imdbID;
+      document.getElementById("movie-type").innerHTML = "Type: " + type;
+
+    }
+
+    function makeUL(movieArray, posterArray, titleArray, yearArray, imdbIDArray, typeArray) {
+      var movieList = document.getElementById('searchList');
+      for(var i = 0; i < movieArray.length; i++) {
+        var movieItem = document.createElement('span');
+        var movieButton = document.createElement('span');
+        var posterURL = '"' + posterArray[i] + '"';
+        var posterURL1 = "'" + posterArray[i] + "'";
+        var decode = decodeURIComponent(posterURL);
+        var encode = decodeURIComponent(posterURL);
+        movieItem.innerHTML = '<li id="' + i + '">' + movieArray[i] + '<span><a href="">&#9432;</a></span></a><button id="mybtn' + i + '" onclick="nominationFunction(' + i + ', ' + posterURL1 + ')">Nominate</button></li>';
+
+        movieList.appendChild(movieItem);
+        document.getElementsByTagName("A")[i].setAttribute("href", "javascript: myFunction(" + decode + ", '" + movieArray[i] + "', '" + titleArray[i] + "', '" + yearArray[i] + "', '" + imdbIDArray[i] + "', '" + typeArray[i] + "')");
+      }
+
+      return movieList;
+    }
+
+    function getMovie(movie) {
+      $.getJSON("https://www.omdbapi.com/?s=" + movie + "&apikey=5986669d").then(function(response) {
+        var rawString = JSON.stringify(response);
+        data = JSON.parse(rawString);
+        var movieArray = data.Search;
+        var resultArray = [];
+        var posterArray = [];
+        var titleArray = [];
+        var yearArray = [];
+        var imdbIDArray = [];
+        var typeArray = [];
+        var myMovie = document.getElementById("searchList");
+
+        myMovie.innerHTML = '';
+
+        for(var i = 0; i < movieArray.length; i++) {
+          title = movieArray[i].Title;
+          year = movieArray[i].Year;
+          poster = movieArray[i].Poster;
+          imdbID = movieArray[i].imdbID;
+          type = movieArray[i].Type;
+
+          if(type == "movie") {
+            resultArray[i] = title + " (" + year + ")";
+            posterArray[i] = poster;
+            titleArray[i] = title;
+            yearArray[i] = year;
+            imdbIDArray[i] = imdbID;
+            typeArray[i] = type;
+          }
+        }
+
+        myMovie.appendChild(makeUL(resultArray, posterArray, titleArray, yearArray, imdbIDArray, typeArray));
+
+      });
+    }
+    </script>
+  </body>
+</html>
